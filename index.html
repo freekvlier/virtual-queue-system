@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Queue</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io();
+            const queueInfo = document.getElementById('queueInfo');
+
+            socket.on('updateAccess', (data) => {
+                if (data.activeUser && data.activeUser === socket.id) {
+                    document.body.innerHTML = '<h1>Welcome, you have access to the page.</h1>';
+                } else {
+                    document.body.innerHTML = '<h1>You are in the queue. Please wait until your turn.</h1>';
+                    document.body.appendChild(queueInfo); // Re-append the queue info
+                }
+            });
+
+            socket.on('queueStatus', (status) => {
+                if (status.inQueue) {
+                    queueInfo.innerHTML = `You are number ${status.position} in the queue out of ${status.queueLength} people.`;
+                } else {
+                    queueInfo.innerHTML = `There are currently ${status.queueLength} people in the queue.`;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Connecting to the server...</h1>
+    <p id="queueInfo"></p>
+</body>
+</html>
