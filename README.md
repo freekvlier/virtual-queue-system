@@ -6,7 +6,7 @@ A simple virtual queue system built using Node.js, Express, and Socket.IO. This 
 
 ### 1. Clone the Repository:
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/freekvlier/virtual-queue-system.git)
 cd virtual-queue-system
 ```
 
